@@ -1,0 +1,42 @@
+docs.oracle.com/javase/tutorial/essential/concurrency/runthread.html
+developer.android.com/reference/java/lang/Thread.html
+docs.oracle.com/javase/tutorial/essential/concurrency
+developer.android.com/reference/java/util/concurrent/package-summary.html
+developer.android.com/guide/components/processes-and-threads.html
+
+docs.oracle.com/javase/7/docs/api/java/lang/Thread.State.html
+www.uml-diagrams.org/examples/java-6-thread-state-machine-diagram-example.html
+
+When Thread.start() called, what happens in Android:
+libcore/luni/src/main/java/java/lang/Thread.java
+libcore/luni/src/main/java/java/lang/VMThread.java
+dalvik/vm/native/java_lang_VMThread.cpp
+dalvik/vm/Thread.cpp
+bionic/libc/bionic/pthread.c
+dalvik/vm/interp/Stack.cpp
+
+Stopping Java Threads
+www.youtube.com/watch?v=5rzyuY8-Ao8
+
+developer.android.com/reference/java/lang/Thread.html#interrupt()
+
+Interrupt:
+www.ibm.com/developerworks/java/library/j-jtp05236/index.html?ca=drs-
+
+stackoverflow.com/questions/8505707/android-best-and-safe-way-to-stop-thread
+
+Best Practice for Concurrency:
+gee.cs.oswego.edu/dl/cpj
+
+
+Producer/Consumer:
+developer.android.com/reference/java/util/concurrent/ArrayBlockingQueue.html
+
+github.com/douglascraigschmidt/POSA-14/tree/master/ex/BuggyQueue
+
+
+github.com/douglascraigschmidt/POSA-14/tree/master/ex/PingPong/wrong
+
+
+
+
