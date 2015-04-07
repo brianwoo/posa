@@ -160,8 +160,11 @@ public class PlayPingPong implements Runnable {
                 // thread can join with it.
                 // @@ TODO - you fill in here.
             	System.out.println("----> " + pingPongType.name() + " thread shutdown");
-            	Handler handler = mHandlers[pingPongType.ordinal()];
-            	handler.getLooper().quit();
+            	//Handler handler = mHandlers[pingPongType.ordinal()];
+            	//handler.getLooper().quit();
+            	
+            	getLooper().quit();
+            	
             	//mHandlers[pingPongType.PONG.ordinal()].getLooper().quit();
             }
 
