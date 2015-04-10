@@ -4,6 +4,7 @@ package vandy.mooc;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,8 @@ public class MainActivity extends LifecycleLoggingActivity {
      */
     protected static final int DOWNLOAD_IMAGE_REQUEST = 1;
 
+	private static final String TAG_DL_IMG_TASK_FRAGMENT = "download_image";
+
     /**
      * EditText field for entering the desired URL to an image.
      */
@@ -45,6 +48,10 @@ public class MainActivity extends LifecycleLoggingActivity {
     private Uri mDefaultUrl =
         Uri.parse("http://www.dre.vanderbilt.edu/~schmidt/robot.png");
 
+    
+    private AsyncTaskFragment mTaskFragment;
+    
+    
     /**
      * Hook method called when a new instance of Activity is created.
      * One time initialization code goes here, e.g., UI layout and
@@ -67,6 +74,21 @@ public class MainActivity extends LifecycleLoggingActivity {
         // (if any).
         // @@ TODO -- you fill in here.
     	mUrlEditText = (EditText) findViewById(R.id.url);
+    	
+    	
+    	FragmentManager fm = getFragmentManager();
+        mTaskFragment = (AsyncTaskFragment) fm.findFragmentByTag(TAG_DL_IMG_TASK_FRAGMENT);
+
+        // If the Fragment is non-null, then it is currently being
+        // retained across a configuration change.
+        if (mTaskFragment == null) {
+          mTaskFragment = new TaskFragment();
+          fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+        }
+        
+        
+    	
+    	
     }
 
     /**
