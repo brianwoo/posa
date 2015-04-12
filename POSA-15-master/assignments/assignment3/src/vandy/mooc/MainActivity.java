@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,7 +23,10 @@ import android.widget.Toast;
  * then uses Intents and other Activities to download the image and
  * view it.
  */
-public class MainActivity extends LifecycleLoggingActivity {
+public class MainActivity 
+extends LifecycleLoggingActivity 
+implements DownloadAndFilterImageTaskFragment.TaskCallbacks
+{
     /**
      * Debugging tag used by the Android logger.
      */
@@ -49,7 +53,7 @@ public class MainActivity extends LifecycleLoggingActivity {
         Uri.parse("http://www.dre.vanderbilt.edu/~schmidt/robot.png");
 
     
-    private AsyncTaskFragment mTaskFragment;
+    private DownloadAndFilterImageTaskFragment mTaskFragment;
     
     
     /**
@@ -73,21 +77,17 @@ public class MainActivity extends LifecycleLoggingActivity {
         // Cache the EditText that holds the urls entered by the user
         // (if any).
         // @@ TODO -- you fill in here.
-    	mUrlEditText = (EditText) findViewById(R.id.url);
-    	
+    	mUrlEditText = (EditText) findViewById(R.id.url);   
     	
     	FragmentManager fm = getFragmentManager();
-        mTaskFragment = (AsyncTaskFragment) fm.findFragmentByTag(TAG_DL_IMG_TASK_FRAGMENT);
+        mTaskFragment = (DownloadAndFilterImageTaskFragment) fm.findFragmentByTag(TAG_DL_IMG_TASK_FRAGMENT);
 
         // If the Fragment is non-null, then it is currently being
         // retained across a configuration change.
         if (mTaskFragment == null) {
-          mTaskFragment = new TaskFragment();
-          fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+          mTaskFragment = new DownloadAndFilterImageTaskFragment();
+          fm.beginTransaction().add(mTaskFragment, TAG_DL_IMG_TASK_FRAGMENT).commit();
         }
-        
-        
-    	
     	
     }
 
@@ -109,15 +109,20 @@ public class MainActivity extends LifecycleLoggingActivity {
             // it's an Intent that's implemented by the
             // DownloadImageActivity.
             // @@ TODO - you fill in here.
+            
             Uri uri = getUrl();
-            Intent downloadIntent = makeDownloadImageIntent(uri);
+            mTaskFragment.executeTask(uri);
+
+            
+            //Uri uri = getUrl();
+            //Intent downloadIntent = makeDownloadImageIntent(uri);
 
             // Start the Activity associated with the Intent, which
             // will download the image and then return the Uri for the
             // downloaded image file via the onActivityResult() hook
             // method.
             // @@ TODO -- you fill in here.
-            startActivityForResult(downloadIntent, DOWNLOAD_IMAGE_REQUEST);
+            //startActivityForResult(downloadIntent, DOWNLOAD_IMAGE_REQUEST);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -244,4 +249,41 @@ public class MainActivity extends LifecycleLoggingActivity {
         mgr.hideSoftInputFromWindow(windowToken,
                                     0);
     }
+
+    
+    
+	@Override
+	public void onDownloadImagePreExecute()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDownloadImageProgressUpdate(int percent)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDownloadImageCancelled()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDownloadImagePostExecute(Uri result)
+	{
+		System.out.println("############ onDownloadImagePostExecute "
+				+ "onPostExecute()!! Uri=" + result);
+		
+		if (null == result)
+			return;
+		
+		Intent galleryIntent = makeGalleryIntent(result.toString());
+    	startActivity(galleryIntent);
+		
+	}
 }
