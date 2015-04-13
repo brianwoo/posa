@@ -84,7 +84,8 @@ implements DownloadAndFilterImageTaskFragment.TaskCallbacks
 
         // If the Fragment is non-null, then it is currently being
         // retained across a configuration change.
-        if (mTaskFragment == null) {
+        if (mTaskFragment == null) 
+        {
           mTaskFragment = new DownloadAndFilterImageTaskFragment();
           fm.beginTransaction().add(mTaskFragment, TAG_DL_IMG_TASK_FRAGMENT).commit();
         }
@@ -103,73 +104,15 @@ implements DownloadAndFilterImageTaskFragment.TaskCallbacks
             hideKeyboard(this,
                          mUrlEditText.getWindowToken());
 
-            // Call the makeDownloadImageIntent() factory method to
-            // create a new Intent to an Activity that can download an
-            // image from the URL given by the user.  In this case
-            // it's an Intent that's implemented by the
-            // DownloadImageActivity.
-            // @@ TODO - you fill in here.
-            
+            // execute the async tasks to download and filter the downloaded image.
             Uri uri = getUrl();
             mTaskFragment.executeTask(uri);
-
-            
-            //Uri uri = getUrl();
-            //Intent downloadIntent = makeDownloadImageIntent(uri);
-
-            // Start the Activity associated with the Intent, which
-            // will download the image and then return the Uri for the
-            // downloaded image file via the onActivityResult() hook
-            // method.
-            // @@ TODO -- you fill in here.
-            //startActivityForResult(downloadIntent, DOWNLOAD_IMAGE_REQUEST);
             
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Hook method called back by the Android Activity framework when
-     * an Activity that's been launched exits, giving the requestCode
-     * it was started with, the resultCode it returned, and any
-     * additional data from it.
-     */
-    @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    Intent data) {
-        // Check if the started Activity completed successfully.
-        // @@ TODO -- you fill in here, replacing true with the right
-        // code.
-        if (RESULT_OK == resultCode) {
-            // Check if the request code is what we're expecting.
-            // @@ TODO -- you fill in here, replacing true with the
-            // right code.
-            if (DOWNLOAD_IMAGE_REQUEST == requestCode) {
-                // Call the makeGalleryIntent() factory method to
-                // create an Intent that will launch the "Gallery" app
-                // by passing in the path to the downloaded image
-                // file.
-                // @@ TODO -- you fill in here.
-            	String pathToImageFile = data.getData().toString();
-            	Intent galleryIntent = makeGalleryIntent(pathToImageFile);
-            	
-                // Start the Gallery Activity.
-                // @@ TODO -- you fill in here.
-            	startActivity(galleryIntent);
-            }
-        }
-        // Check if the started Activity did not complete successfully
-        // and inform the user a problem occurred when trying to
-        // download contents at the given URL.
-        // @@ TODO -- you fill in here, replacing true with the right
-        // code.
-        else if (RESULT_OK != resultCode) {
-        	Toast toast = Toast.makeText(this, "Unable to download image", Toast.LENGTH_SHORT);
-        	toast.show();
-        }
-    }    
 
     /**
      * Factory method that returns an Intent for viewing the
@@ -196,18 +139,6 @@ implements DownloadAndFilterImageTaskFragment.TaskCallbacks
     	
     }
 
-    /**
-     * Factory method that returns an Intent for downloading an image.
-     */
-    private Intent makeDownloadImageIntent(Uri url) {
-        // Create an intent that will download the image from the web.
-    	// TODO -- you fill in here, replacing "false" with the proper
-    	// code.    	
-    	Intent downloadImageIntent = new Intent(Intent.ACTION_WEB_SEARCH);   	
-    	
-    	downloadImageIntent.setData(url);
-    	return downloadImageIntent;
-    }
 
     /**
      * Get the URL to download based on user input.
@@ -253,32 +184,18 @@ implements DownloadAndFilterImageTaskFragment.TaskCallbacks
     
     
 	@Override
-	public void onDownloadImagePreExecute()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void onDownloadAndFilterImagePreExecute() {}
 
 	@Override
-	public void onDownloadImageProgressUpdate(int percent)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void onDownloadAndFilterImageProgressUpdate(int percent) {}
 
 	@Override
-	public void onDownloadImageCancelled()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void onDownloadAndFilterImageCancelled() {}
 
+	
 	@Override
-	public void onDownloadImagePostExecute(Uri result)
-	{
-		System.out.println("############ onDownloadImagePostExecute "
-				+ "onPostExecute()!! Uri=" + result);
-		
+	public void onDownloadAndFilterImagePostExecute(Uri result)
+	{		
 		if (null == result)
 			return;
 		
